@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!-- Maul's source projectile deals 12 damage and has no secondary payload.
+	     A dedicated CE projectile preserves that output while gaining CE collision,
+	     suppression, and armor penetration. Reusing the stock 6x24 mm charged
+	     projectile would add a four-damage explosive rider to every overclock shot. -->
+	<ThingDef ParentName="Base6x24mmChargedBullet">
+		<defName>APM_CE_Bullet_MaulBlaster</defName>
+		<label>heavy sledge blaster bolt</label>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
+			<damageAmountBase>12</damageAmountBase>
+			<secondaryDamage />
+			<armorPenetrationSharp>15</armorPenetrationSharp>
+			<armorPenetrationBlunt>25.6</armorPenetrationBlunt>
+		</projectile>
+	</ThingDef>
+</Defs>

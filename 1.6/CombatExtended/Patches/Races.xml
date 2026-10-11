@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Satellite replaces its inherited comp list in the source def. Restore the CE comps that
+	     BasePawn would otherwise provide so its CE weapon can receive and carry ammunition. -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="APM_Mech_Satellite"]/comps</xpath>
+		<value>
+			<li Class="CombatExtended.CompProperties_Inventory" />
+			<li Class="CombatExtended.CompProperties_TacticalManager" />
+		</value>
+	</Operation>
+
+	<!-- Upright bipeds. The extensions live on the defs that own each race/body block,
+	     so abstract Apex bases pass the shape to their concrete boss and weapon variants. -->
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[race/body="APM_Celerus" or race/body="APM_Conqueror" or race/body="APM_Dominus" or race/body="APM_Lasher" or race/body="APM_Pulse" or race/body="APM_Satellite" or race/body="APM_Siren" or race/body="APM_Terminus" or race/body="APM_Tinker" or race/body="APM_Vassal"]</xpath>
+		<value>
+			<li Class="CombatExtended.RacePropertiesExtensionCE">
+				<bodyShape>Humanoid</bodyShape>
+			</li>
+		</value>
+	</Operation>
+
+	<!-- Aegis and Maul use humanoid body trees, but their shield/tank silhouettes are substantially wider. -->
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[race/body="APM_Aegis" or race/body="APM_Maul"]</xpath>
+		<value>
+			<li Class="CombatExtended.RacePropertiesExtensionCE">
+				<bodyShape>HumanoidWide</bodyShape>
+			</li>
+		</value>
+	</Operation>
+
+	<!-- Four-legged, roughly animal-proportioned chassis. -->
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[race/body="APM_Frostivus" or race/body="APM_Haze" or race/body="APM_Mantis" or race/body="APM_Ravager"]</xpath>
+		<value>
+			<li Class="CombatExtended.RacePropertiesExtensionCE">
+				<bodyShape>Quadruped</bodyShape>
+			</li>
+		</value>
+	</Operation>
+
+	<!-- Low, elongated combat chassis. -->
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[race/body="APM_Dynamo" or race/body="APM_Ingestor" or race/body="APM_Javelin"]</xpath>
+		<value>
+			<li Class="CombatExtended.RacePropertiesExtensionCE">
+				<bodyShape>QuadrupedLow</bodyShape>
+			</li>
+		</value>
+	</Operation>
+
+	<!-- Gazer is a broad mobile beam platform rather than a humanoid or animal-shaped frame. -->
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[race/body="APM_Gazer"]</xpath>
+		<value>
+			<li Class="CombatExtended.RacePropertiesExtensionCE">
+				<bodyShape>Vehicle</bodyShape>
+			</li>
+		</value>
+	</Operation>
+
+	<!-- Armor is scaled from the exact CE 1.6 parent chassis conversions:
+	     BaseMechanoidWalker 0.40/0.20 -> 4/6 mm RHA,
+	     HeavyMechanoid 0.40/0.20 -> 7/15 mm RHA, and
+	     MechCentipede 0.72/0.22 -> 20/45 mm RHA. -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Aegis"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>12.25</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Aegis"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>37.5</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Celerus"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>8</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Celerus"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>18</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Conqueror"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>5</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Conqueror"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>7.2</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Dominus"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>8.5</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Dominus"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>19.2</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Dynamo" or race/body="APM_Javelin"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>5.5</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Dynamo" or race/body="APM_Javelin"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>6.6</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Frostivus"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>4</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Frostivus"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>6.6</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Gazer"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>9.6</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Gazer"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>16.5</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Haze" or race/body="APM_Tinker"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>3</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Haze" or race/body="APM_Tinker"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>4.5</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Ingestor"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>22.22</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Ingestor"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>61.36</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Lasher" or race/body="APM_Siren" or race/body="APM_Vassal"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>4</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Lasher" or race/body="APM_Siren" or race/body="APM_Vassal"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>6</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Mantis"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>6</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Mantis"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>9</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Maul"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>12.6</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Maul"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>22.5</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Pulse"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>5.5</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Pulse"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>7.8</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Ravager"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>5</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Ravager"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>7.5</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Satellite"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>2.5</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Satellite"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>3</ArmorRating_Blunt></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Terminus"]/statBases/ArmorRating_Sharp</xpath>
+		<value><ArmorRating_Sharp>11.2</ArmorRating_Sharp></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[race/body="APM_Terminus"]/statBases/ArmorRating_Blunt</xpath>
+		<value><ArmorRating_Blunt>25.2</ArmorRating_Blunt></value>
+	</Operation>
+
+	<!-- Non-walker ranged frames use the CE centipede aiming baseline. -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[race/body="APM_Gazer" or race/body="APM_Maul" or race/body="APM_Pulse" or race/body="APM_Ravager"]/statBases</xpath>
+		<value>
+			<AimingAccuracy>1.3</AimingAccuracy>
+			<ShootingAccuracyPawn>1.25</ShootingAccuracyPawn>
+		</value>
+	</Operation>
+</Patch>

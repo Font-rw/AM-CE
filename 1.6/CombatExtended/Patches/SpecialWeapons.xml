@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- These four weapons retain their source projectile or beam implementation.
+	     CE still supplies encumbrance and melee stats and resolves the resulting
+	     DamageInfo through its armor model. Replacing their verbs would discard
+	     toxic residue, offset beams, the Solus arc budget, or Javelin guidance. -->
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="APM_Haze_BeamGun"]/statBases</xpath>
+		<value>
+			<SightsEfficiency>0.9</SightsEfficiency>
+			<ShotSpread>0.10</ShotSpread>
+			<SwayFactor>1.05</SwayFactor>
+			<Bulk>9</Bulk>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="APM_Haze_BeamGun"]/weaponTags</xpath>
+		<value>
+			<li>CE_AI_Suppressive</li>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="APM_Gazer_Laser"]/statBases</xpath>
+		<value>
+			<Mass>8</Mass>
+			<SightsEfficiency>1.1</SightsEfficiency>
+			<ShotSpread>0.04</ShotSpread>
+			<SwayFactor>0.8</SwayFactor>
+			<Bulk>13</Bulk>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="APM_Gazer_Laser"]/weaponTags</xpath>
+		<value>
+			<li>CE_AI_Rifle</li>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="APM_Solus"]/statBases</xpath>
+		<value>
+			<SightsEfficiency>1</SightsEfficiency>
+			<ShotSpread>0.02</ShotSpread>
+			<SwayFactor>1.2</SwayFactor>
+			<Bulk>15</Bulk>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="APM_Solus"]/weaponTags</xpath>
+		<value>
+			<li>CE_AI_Launcher</li>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="APM_Gun_JavelinRocketLauncher"]/statBases</xpath>
+		<value>
+			<SightsEfficiency>1.4</SightsEfficiency>
+			<ShotSpread>0.01</ShotSpread>
+			<SwayFactor>0.6</SwayFactor>
+			<Bulk>15</Bulk>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="APM_Gun_JavelinRocketLauncher"]/weaponTags</xpath>
+		<value>
+			<li>CE_AI_Launcher</li>
+		</value>
+	</Operation>
+
+	<!-- Severing Edge is a melee-scaled custom projectile. Its CE subclass supplies the
+	     strongest melee verb as armor context so both sharp hits and blunt deflections use
+	     the Terminus or wielder's actual ToolCE penetration instead of CE's 50 AP fallback. -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[@Name="APM_SeveringEdge_Base"]/thingClass</xpath>
+		<value>
+			<thingClass>ApexMechanoids.CombatExtended.SeveringEdgeCE</thingClass>
+		</value>
+	</Operation>
+
+	<!-- Javelin keeps its native guided missile mover. Convert its direct and
+	     explicit blast penetration values from vanilla percentages to CE units.
+	     The basic rocket uses the current CE 12x72 mm charged projectile's 45 mm
+	     penetration as a restrained micro-missile benchmark. The HE blast's
+	     10.4 MPa is CE's standard 0.4 penetration per point of its 26 damage. -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="APM_Proj_JavelinMissile"]/projectile/armorPenetrationBase</xpath>
+		<value>
+			<armorPenetrationBase>45</armorPenetrationBase>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="APM_Proj_JavelinMissile_Incendiary"]/projectile/armorPenetrationBase</xpath>
+		<value>
+			<armorPenetrationBase>0</armorPenetrationBase>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="APM_Proj_JavelinMissile_HighExplosive"]/projectile/armorPenetrationBase</xpath>
+		<value>
+			<armorPenetrationBase>20</armorPenetrationBase>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="APM_Proj_JavelinMissile_Incendiary"]/modExtensions/li[@Class="ApexMechanoids.DefModExtension_JavelinWarhead"]/blastArmorPenetration</xpath>
+		<value>
+			<blastArmorPenetration>0</blastArmorPenetration>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="APM_Proj_JavelinMissile_HighExplosive"]/modExtensions/li[@Class="ApexMechanoids.DefModExtension_JavelinWarhead"]/blastArmorPenetration</xpath>
+		<value>
+			<blastArmorPenetration>10.4</blastArmorPenetration>
+		</value>
+	</Operation>
+
+	<!-- Ravager's regular attack is a true CE mortar while retaining the Apex
+	     artillery toggle, autonomous targeting, and ordered attack job. Its 132
+	     explosive damage matches CE's current 70 mm mechanoid grenade, but it
+	     intentionally omits that round's fragments to keep the integrated gun
+	     below a crewed 81 mm mortar shell. -->
+	<Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">
+		<defName>APM_Ravager_Artillery</defName>
+		<statBases>
+			<Mass>18</Mass>
+			<RangedWeapon_Cooldown>22</RangedWeapon_Cooldown>
+			<SightsEfficiency>0.8</SightsEfficiency>
+			<ShotSpread>0.10</ShotSpread>
+			<SwayFactor>1</SwayFactor>
+			<Bulk>20</Bulk>
+		</statBases>
+		<Properties>
+			<recoilAmount>4</recoilAmount>
+			<verbClass>ApexMechanoids.CombatExtended.Verb_RavagerArtilleryCE</verbClass>
+			<hasStandardCommand>true</hasStandardCommand>
+			<requireLineOfSight>false</requireLineOfSight>
+			<defaultProjectile>APM_ArtilleryProjectile</defaultProjectile>
+			<warmupTime>3</warmupTime>
+			<range>220</range>
+			<burstShotCount>1</burstShotCount>
+			<soundCast>Shot_IncendiaryLauncher</soundCast>
+			<soundCastTail>GunTail_Medium</soundCastTail>
+			<muzzleFlashScale>14</muzzleFlashScale>
+			<circularError>2.9</circularError>
+			<indirectFirePenalty>0.15</indirectFirePenalty>
+			<ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
+			<ai_AvoidFriendlyFireRadius>4</ai_AvoidFriendlyFireRadius>
+			<targetParams>
+				<canTargetLocations>true</canTargetLocations>
+				<canTargetPawns>true</canTargetPawns>
+				<canTargetBuildings>true</canTargetBuildings>
+			</targetParams>
+		</Properties>
+		<FireModes>
+			<aiAimMode>AimedShot</aiAimMode>
+		</FireModes>
+		<weaponTags>
+			<li>CE_AI_Launcher</li>
+		</weaponTags>
+	</Operation>
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[defName="APM_Ravager_Artillery"]/verbs/li[verbClass="ApexMechanoids.Verb_RavagerArtillery"]</xpath>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="APM_Ravager_Artillery"]/comps</xpath>
+		<value>
+			<li Class="CombatExtended.CompProperties_Charges">
+				<chargeSpeeds>
+					<li>30</li>
+					<li>40</li>
+					<li>50</li>
+				</chargeSpeeds>
+			</li>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="APM_ArtilleryProjectile"]/thingClass</xpath>
+		<value>
+			<thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAttributeSet">
+		<xpath>Defs/ThingDef[defName="APM_ArtilleryProjectile"]/projectile</xpath>
+		<attribute>Class</attribute>
+		<value>CombatExtended.ProjectilePropertiesCE</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="APM_ArtilleryProjectile"]/projectile/speed</xpath>
+		<value>
+			<speed>0</speed>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="APM_ArtilleryProjectile"]/projectile</xpath>
+		<value>
+			<damageAmountBase>132</damageAmountBase>
+			<armorPenetrationSharp>0</armorPenetrationSharp>
+			<armorPenetrationBlunt>0</armorPenetrationBlunt>
+			<gravityFactor>1</gravityFactor>
+			<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+			<soundExplode>MortarBomb_Explode</soundExplode>
+			<soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+			<soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+		</value>
+	</Operation>
+
+	<!-- Starfall keeps the source spread geometry and AI profile, but the carrier
+	     and all three fragments now travel and detonate through CE. -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/AbilityDef[defName="APM_Starfall"]/comps/li[@Class="ApexMechanoids.CompProperties_Starfall"]</xpath>
+		<value>
+			<compClass>ApexMechanoids.CombatExtended.CompAbilityEffect_StarfallCE</compClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="APM_StarfallCarrier"]/thingClass</xpath>
+		<value>
+			<thingClass>ApexMechanoids.CombatExtended.Projectile_StarfallCarrierCE</thingClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAttributeSet">
+		<xpath>Defs/ThingDef[defName="APM_StarfallCarrier"]/projectile</xpath>
+		<attribute>Class</attribute>
+		<value>CombatExtended.ProjectilePropertiesCE</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="APM_StarfallCarrier"]/projectile/speed</xpath>
+		<value>
+			<speed>45</speed>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="APM_StarfallCarrier"]/projectile</xpath>
+		<value>
+			<damageAmountBase>0</damageAmountBase>
+			<armorPenetrationSharp>0</armorPenetrationSharp>
+			<armorPenetrationBlunt>0</armorPenetrationBlunt>
+			<gravityFactor>1</gravityFactor>
+			<castShadow>true</castShadow>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="APM_StarfallSplitProjectile"]/thingClass</xpath>
+		<value>
+			<thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAttributeSet">
+		<xpath>Defs/ThingDef[defName="APM_StarfallSplitProjectile"]/projectile</xpath>
+		<attribute>Class</attribute>
+		<value>CombatExtended.ProjectilePropertiesCE</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="APM_StarfallSplitProjectile"]/projectile</xpath>
+		<value>
+			<damageAmountBase>132</damageAmountBase>
+			<armorPenetrationSharp>0</armorPenetrationSharp>
+			<armorPenetrationBlunt>0</armorPenetrationBlunt>
+			<gravityFactor>1</gravityFactor>
+			<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+			<soundExplode>MortarBomb_Explode</soundExplode>
+		</value>
+	</Operation>
+</Patch>
