@@ -18,6 +18,8 @@
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
 		<OutputPath>../../CombatExtended/Assemblies/</OutputPath>
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
 	</PropertyGroup>
   <ItemGroup>
     <Reference Include="CombatExtended">
