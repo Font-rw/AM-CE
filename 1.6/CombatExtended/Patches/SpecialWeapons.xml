@@ -5,69 +5,61 @@
 	     DamageInfo through its armor model. Replacing their verbs would discard
 	     toxic residue, offset beams, the Solus arc budget, or Javelin guidance. -->
 
-	<Operation Class="PatchOperationAdd">
-		<xpath>Defs/ThingDef[defName="APM_Haze_BeamGun"]/statBases</xpath>
-		<value>
+	<Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">
+		<defName>APM_Haze_BeamGun</defName>
+		<statBases>
 			<SightsEfficiency>0.9</SightsEfficiency>
 			<ShotSpread>0.10</ShotSpread>
 			<SwayFactor>1.05</SwayFactor>
 			<Bulk>9</Bulk>
-		</value>
-	</Operation>
-	<Operation Class="PatchOperationAdd">
-		<xpath>Defs/ThingDef[defName="APM_Haze_BeamGun"]/weaponTags</xpath>
-		<value>
+		</statBases>
+		<weaponTags>
 			<li>CE_AI_Suppressive</li>
-		</value>
+			<li>NoSwitch</li>
+		</weaponTags>
 	</Operation>
 
-	<Operation Class="PatchOperationAdd">
-		<xpath>Defs/ThingDef[defName="APM_Gazer_Laser"]/statBases</xpath>
-		<value>
+	<Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">
+		<defName>APM_Gazer_Laser</defName>
+		<statBases>
 			<Mass>8</Mass>
 			<SightsEfficiency>1.1</SightsEfficiency>
 			<ShotSpread>0.04</ShotSpread>
 			<SwayFactor>0.8</SwayFactor>
 			<Bulk>13</Bulk>
-		</value>
-	</Operation>
-	<Operation Class="PatchOperationAdd">
-		<xpath>Defs/ThingDef[defName="APM_Gazer_Laser"]/weaponTags</xpath>
-		<value>
+		</statBases>
+		<weaponTags>
 			<li>CE_AI_Rifle</li>
-		</value>
+			<li>NoSwitch</li>
+		</weaponTags>
 	</Operation>
 
-	<Operation Class="PatchOperationAdd">
-		<xpath>Defs/ThingDef[defName="APM_Solus"]/statBases</xpath>
-		<value>
+	<Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">
+		<defName>APM_Solus</defName>
+		<statBases>
 			<SightsEfficiency>1</SightsEfficiency>
 			<ShotSpread>0.02</ShotSpread>
 			<SwayFactor>1.2</SwayFactor>
 			<Bulk>15</Bulk>
-		</value>
-	</Operation>
-	<Operation Class="PatchOperationAdd">
-		<xpath>Defs/ThingDef[defName="APM_Solus"]/weaponTags</xpath>
-		<value>
+		</statBases>
+		<weaponTags>
 			<li>CE_AI_Launcher</li>
-		</value>
+			<li>NoSwitch</li>
+		</weaponTags>
 	</Operation>
 
-	<Operation Class="PatchOperationAdd">
-		<xpath>Defs/ThingDef[defName="APM_Gun_JavelinRocketLauncher"]/statBases</xpath>
-		<value>
+	<Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">
+		<defName>APM_Gun_JavelinRocketLauncher</defName>
+		<statBases>
 			<SightsEfficiency>1.4</SightsEfficiency>
 			<ShotSpread>0.01</ShotSpread>
 			<SwayFactor>0.6</SwayFactor>
 			<Bulk>15</Bulk>
-		</value>
-	</Operation>
-	<Operation Class="PatchOperationAdd">
-		<xpath>Defs/ThingDef[defName="APM_Gun_JavelinRocketLauncher"]/weaponTags</xpath>
-		<value>
+		</statBases>
+		<weaponTags>
 			<li>CE_AI_Launcher</li>
-		</value>
+			<li>NoSwitch</li>
+		</weaponTags>
 	</Operation>
 
 	<!-- Severing Edge is a melee-scaled custom projectile. Its CE subclass supplies the
@@ -80,28 +72,11 @@
 		</value>
 	</Operation>
 
-	<!-- Javelin keeps its native guided missile mover. Convert its direct and
-	     explicit blast penetration values from vanilla percentages to CE units.
-	     The basic rocket uses the current CE 12x72 mm charged projectile's 45 mm
-	     penetration as a restrained micro-missile benchmark. The HE blast's
-	     10.4 MPa is CE's standard 0.4 penetration per point of its 26 damage. -->
-	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/ThingDef[defName="APM_Proj_JavelinMissile"]/projectile/armorPenetrationBase</xpath>
-		<value>
-			<armorPenetrationBase>45</armorPenetrationBase>
-		</value>
-	</Operation>
-	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/ThingDef[defName="APM_Proj_JavelinMissile_Incendiary"]/projectile/armorPenetrationBase</xpath>
-		<value>
-			<armorPenetrationBase>0</armorPenetrationBase>
-		</value>
-	</Operation>
-	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/ThingDef[defName="APM_Proj_JavelinMissile_HighExplosive"]/projectile/armorPenetrationBase</xpath>
-		<value>
-			<armorPenetrationBase>20</armorPenetrationBase>
-		</value>
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[
+			defName="APM_Proj_JavelinMissile_Incendiary" or
+			defName="APM_Proj_JavelinMissile_HighExplosive" or
+			defName="APM_Proj_JavelinMissile"]/projectile/armorPenetrationBase</xpath>
 	</Operation>
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/ThingDef[defName="APM_Proj_JavelinMissile_Incendiary"]/modExtensions/li[@Class="ApexMechanoids.DefModExtension_JavelinWarhead"]/blastArmorPenetration</xpath>
@@ -112,7 +87,7 @@
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/ThingDef[defName="APM_Proj_JavelinMissile_HighExplosive"]/modExtensions/li[@Class="ApexMechanoids.DefModExtension_JavelinWarhead"]/blastArmorPenetration</xpath>
 		<value>
-			<blastArmorPenetration>10.4</blastArmorPenetration>
+			<blastArmorPenetration>250</blastArmorPenetration>
 		</value>
 	</Operation>
 
@@ -197,8 +172,6 @@
 		<xpath>Defs/ThingDef[defName="APM_ArtilleryProjectile"]/projectile</xpath>
 		<value>
 			<damageAmountBase>132</damageAmountBase>
-			<armorPenetrationSharp>0</armorPenetrationSharp>
-			<armorPenetrationBlunt>0</armorPenetrationBlunt>
 			<gravityFactor>1</gravityFactor>
 			<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
 			<soundExplode>MortarBomb_Explode</soundExplode>
@@ -258,8 +231,6 @@
 		<xpath>Defs/ThingDef[defName="APM_StarfallSplitProjectile"]/projectile</xpath>
 		<value>
 			<damageAmountBase>132</damageAmountBase>
-			<armorPenetrationSharp>0</armorPenetrationSharp>
-			<armorPenetrationBlunt>0</armorPenetrationBlunt>
 			<gravityFactor>1</gravityFactor>
 			<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
 			<soundExplode>MortarBomb_Explode</soundExplode>
